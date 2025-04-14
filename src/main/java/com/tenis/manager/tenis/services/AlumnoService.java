@@ -52,4 +52,24 @@ public class AlumnoService {
 
     }
 
+    // Buscar por nombre exacto
+public List<Alumno> buscarPorNombre(String nombre) {
+    return alumnoRepo.findByNombre(nombre);
+}
+
+// Buscar por coincidencia parcial en el nombre (más flexible)
+public List<Alumno> buscarPorNombreSimilar(String texto) {
+    return alumnoRepo.findByNombreContainingIgnoreCase(texto);
+}
+
+// Filtrar por cantidad de veces por semana
+public List<Alumno> filtrarPorVecesPorSemana(String veces) {
+    return alumnoRepo.findByVecesXsemana(veces);
+}
+
+// Filtrar alumnos que no pagaron la cuota
+public List<Alumno> listarAlumnosConCuotaImpaga() {
+    return alumnoRepo.findBymesActualPagoFalse();
+}
+
 }

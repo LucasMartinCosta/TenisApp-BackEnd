@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.tenis.manager.tenis.entities.Alumno;
@@ -88,6 +89,52 @@ public class AlumnosController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
     } 
+
+    // Buscar alumnos por nombre exacto
+@GetMapping("/buscar/nombre")
+@Transactional(readOnly = true)
+public ResponseEntity<List<Alumno>> buscarPorNombre(@RequestParam String nombre) {
+    List<Alumno> alumnos = service.buscarPorNombre(nombre);
+    if (alumnos.isEmpty()) {
+        return ResponseEntity.noContent().build();
+    }
+    return ResponseEntity.ok(alumnos);
+}
+
+// Buscar alumnos por coincidencia parcial en el nombre
+@GetMapping("/buscar/nombre-similar")
+@Transactional(readOnly = true)
+public ResponseEntity<List<Alumno>> buscarPorNombreSimilar(@RequestParam String texto) {
+    List<Alumno> alumnos = service.buscarPorNombreSimilar(texto);
+    if (alumnos.isEmpty()) {
+        return ResponseEntity.noContent().build();
+    }
+    return ResponseEntity.ok(alumnos);
+}
+
+// Filtrar por cantidad de veces por semana
+@GetMapping("/filtrar/veces")
+@Transactional(readOnly = true)
+public ResponseEntity<List<Alumno>> filtrarPorVecesPorSemana(@RequestParam String veces) {
+    List<Alumno> alumnos = service.filtrarPorVecesPorSemana(veces);
+    if (alumnos.isEmpty()) {
+        return ResponseEntity.noContent().build();
+    }
+    return ResponseEntity.ok(alumnos);
+}
+
+// Filtrar alumnos que no pagaron la cuota
+@GetMapping("/filtrar/cuota-impaga")
+@Transactional(readOnly = true)
+public ResponseEntity<List<Alumno>> listarAlumnosConCuotaImpaga() {
+    List<Alumno> alumnos = service.listarAlumnosConCuotaImpaga();
+    if (alumnos.isEmpty()) {
+        return ResponseEntity.noContent().build();
+    }
+    return ResponseEntity.ok(alumnos);
+}
+
+
 
 
 }
