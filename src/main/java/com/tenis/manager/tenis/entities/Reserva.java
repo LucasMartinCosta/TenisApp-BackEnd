@@ -25,6 +25,7 @@ import jakarta.persistence.ManyToOne;
     @JsonSubTypes.Type(value = Clase.class, name = "CLASE"),
     @JsonSubTypes.Type(value = Alquiler.class, name = "ALQUILER")
 })
+
 public class Reserva {
 
     @Id
